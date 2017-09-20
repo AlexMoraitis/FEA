@@ -14,7 +14,7 @@
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 
-\title{Push to both Git bash  Report}
+\title{FEA Major Project Draft Report}
 \author{Alex Moraitis\\Z5017180}
 \date{21 September 2017}
 
@@ -23,7 +23,7 @@
 \maketitle
 
 \begin{abstract}
-Your abstract.
+This document outlines the finite element simulation process conducted to determine the stress and deformation of a 3D printed Hexapod leg. This is the first step in order to optimise the concept design before manufacturing. In order to validate the model, a 2D profile of the design was developed which allowed for simple hand calculations. This 2D Ansys model will then be used to validate a 3D model of the Hexapod leg design.  
 \end{abstract}
 
 \newpage
@@ -31,20 +31,18 @@ Your abstract.
 \newpage
 
 \section{Introduction}
+3D printing is a manufacturing process from which solid objects can be made from digital files. This is achieved by repeatedly melting and laying down material in layers until the object is formed. This process is becoming popular within households as the 3D printers are gradually becoming commercially affordable. The standard commercial printer is typically able to print using either Polylactic Acid (PLA) or Acrylonitrile Butadiene Styrene (ABS). Since the hexapod leg is to experience impact forces, ABS was chosen due to it's properties of being much stronger, more flexible and machinable compared to PLA.
 
-Your introduction goes here! Some examples of commonly used commands and features are listed below, to help you get started. If you have a question, please use the help menu (``?'') on the top bar to search for help or ask us a question. TESTING FROM OVERLEAF
+Failure points and maximum stresses can be analysed either experimentally or by using simulation software such as ANSYS. The theoretical method, through ANSYS simualtion software, is applied in this document to a 2D model and validated through hand calculations. This 2D model can then be used to validate the 3D simulations before optimisation is conducted. 
 
-\section{Some examples to get started}
+\newpage
+
+\section{Project Requirements and Plan}
 
 \subsection{How to include Figures}
 
 First you have to upload the image file from your computer using the upload link the project menu. Then use the includegraphics command to include it in your document. Use the figure environment and the caption command to add a number and a caption to your figure. See the code for Figure \ref{fig:frog} in this section for an example.
 
-\begin{figure}
-\centering
-\includegraphics[width=0.3\textwidth]{frog.jpg}
-\caption{\label{fig:frog}This frog was uploaded via the project menu.}
-\end{figure}
 
 \subsection{How to add Comments}
 
@@ -62,15 +60,6 @@ Comments can also be added to the margins of the compiled PDF using the todo com
 
 Use the table and tabular commands for basic tables --- see Table~\ref{tab:widgets}, for example. 
 
-\begin{table}
-\centering
-\begin{tabular}{l|r}
-Item & Quantity \\\hline
-Widgets & 42 \\
-Gadgets & 13
-\end{tabular}
-\caption{\label{tab:widgets}An example table.}
-\end{table}
 
 \subsection{How to write Mathematics}
 
