@@ -4,7 +4,8 @@
 \usepackage[english]{babel}
 \usepackage[utf8x]{inputenc}
 \usepackage[T1]{fontenc}
-
+\usepackage{setspace}
+\doublespacing
 %% Sets page size and margins
 \usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
 
@@ -23,7 +24,7 @@
 \maketitle
 
 \begin{abstract}
-This document outlines the finite element simulation process conducted to determine the stress and deformation of a 3D printed Hexapod leg. This is the first step in order to optimise the concept design before manufacturing. In order to validate the model, a 2D profile of the design was developed which allowed for simple hand calculations. This 2D Ansys model will then be used to validate a 3D model of the Hexapod leg design.  
+This document outlines the finite element simulation process conducted to determine the stress and deformation of a 3D printed Hexapod leg. This is the first step in optimisation of the concept design before manufacturing. The purpose of this study is directed at hobbyist that want to alter components of their products to change functionality or physical capabilities. The first step of the modelling process is the analyse simple 3D model of the leg that consist of a single body. These results from this simulation became the standard and will be used for comparison of future optimised models. To validate these results, convergence tests were conducted using ANSYS built in functions.
 \end{abstract}
 
 \newpage
@@ -31,10 +32,9 @@ This document outlines the finite element simulation process conducted to determ
 \newpage
 
 \section{Introduction}
-3D printing is a manufacturing process from which solid objects can be made from digital files. This is achieved by repeatedly melting and laying down material in layers until the object is formed. This process is becoming popular within households as the 3D printers are gradually becoming commercially affordable. The standard commercial printer is typically able to print using either Polylactic Acid (PLA) or Acrylonitrile Butadiene Styrene (ABS). Since the hexapod leg is to experience impact forces, ABS was chosen due to it's properties of being much stronger, more flexible and machinable compared to PLA.
+3D printing is a manufacturing process from which solid objects can be made from digital files. This is achieved by repeatedly melting and laying down material in layers until the object is formed. This process is becoming popular within households as 3D printers are gradually becoming commercially affordable. The standard commercial printer is typically able to print using either Polylactic Acid (PLA) or Acrylonitrile Butadiene Styrene (ABS). Even though printers can do both thermoplastics, there is a significant difference in the physical properties they exhibit. ABS has a  significantly higher yield strength than PLA, however its print quality if not as sharp as that of the PLA. Since the hexapod leg is to experience impact forces, ABS was chosen due to  being much stronger, more flexible and machinable compared to PLA.
 
-Failure points and maximum stresses can be analysed either experimentally or by using simulation software such as ANSYS. The theoretical method, through ANSYS simualtion software, is applied in this document to a 2D model and validated through hand calculations. This 2D model can then be used to validate the 3D simulations before optimisation is conducted. 
-
+Since thermoplastics are melted and then layered, they display material properties close similar to composites. They become very susceptible to cracking if printing conditions are not met or at stress concentrators. Current simulation programs, like ANSYS, have been developed to accurately analyse failure points and maximum stresses of such composite plastic materials.
 \newpage
 
 \section{Project Requirements and Plan}
