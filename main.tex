@@ -5,7 +5,7 @@
 \usepackage[utf8x]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{setspace}
-\doublespacing
+\onehalfspace
 %% Sets page size and margins
 \usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
 
@@ -14,6 +14,7 @@
 \usepackage{graphicx}
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{bm}
 
 \title{FEA Major Project Draft Report}
 \author{Alex Moraitis\\Z5017180}
@@ -24,7 +25,7 @@
 \maketitle
 
 \begin{abstract}
-This document outlines the finite element simulation process conducted to determine the stress and deformation of a 3D printed Hexapod leg. This is the first step in optimisation of the concept design before manufacturing. The purpose of this study is directed at hobbyist that want to alter components of their products to change functionality or physical capabilities. The first step of the modelling process is the analyse simple 3D model of the leg that consist of a single body. These results from this simulation became the standard and will be used for comparison of future optimised models. To validate these results, convergence tests were conducted using ANSYS built in functions.
+This document outlines the finite element simulation process conducted to determine the stress and deformation of a 3D printed Hexapod leg. This is the first step in optimisation of the concept design before manufacturing. The purpose of this study is directed at hobbyist that want to alter components of their products to change functionality or physical capabilities. The first step of the modelling process is the analyse simple 3D model of the leg that consist of a single body. These results from this simulation became the standard and will be used for comparison of future optimised models. To validate these results, convergence tests were conducted using Ansys built in functions.
 \end{abstract}
 
 \newpage
@@ -32,70 +33,97 @@ This document outlines the finite element simulation process conducted to determ
 \newpage
 
 \section{Introduction}
-3D printing is a manufacturing process from which solid objects can be made from digital files. This is achieved by repeatedly melting and laying down material in layers until the object is formed. This process is becoming popular within households as 3D printers are gradually becoming commercially affordable. The standard commercial printer is typically able to print using either Polylactic Acid (PLA) or Acrylonitrile Butadiene Styrene (ABS). Even though printers can do both thermoplastics, there is a significant difference in the physical properties they exhibit. ABS has a  significantly higher yield strength than PLA, however its print quality if not as sharp as that of the PLA. Since the hexapod leg is to experience impact forces, ABS was chosen due to  being much stronger, more flexible and machinable compared to PLA.
+3D printing is a manufacturing process from which solid objects can be made from digital files. This is achieved by repeatedly melting and laying down material in layers until the object is formed. This process is becoming popular within households as 3D printers are gradually becoming commercially affordable. The standard commercial printer is typically able to print using either Polylactic Acid (PLA) or Acrylonitrile Butadiene Styrene (ABS). Even though printers can do both thermoplastics, there is a significant difference in the physical properties they exhibit. ABS has a  significantly higher yield strength than PLA, however its print quality if not as sharp as prints from PLA. Since the hexapod leg is to experience impact forces, ABS was chosen due to  being much stronger, more flexible and machinable compared to PLA.
 
-Since thermoplastics are melted and then layered, they display material properties close similar to composites. They become very susceptible to cracking if printing conditions are not met or at stress concentrators. Current simulation programs, like ANSYS, have been developed to accurately analyse failure points and maximum stresses of such composite plastic materials.
-\newpage
+Since thermoplastics are melted and then layered, they display material properties close similar to composites. They become very susceptible to cracking if printing conditions are not met or at stress concentrators. Thus, many assumptions were made to simplify the 3D model to a 2D system that can be solved by hand calculations. This is then coupled with a simulation program,Ansys,to accurately analyse failure points and maximum stresses.
 
-\section{Project Requirements and Plan}
-
-\subsection{How to include Figures}
-
-First you have to upload the image file from your computer using the upload link the project menu. Then use the includegraphics command to include it in your document. Use the figure environment and the caption command to add a number and a caption to your figure. See the code for Figure \ref{fig:frog} in this section for an example.
-
-
-\subsection{How to add Comments}
-
-Comments can be added to your project by clicking on the comment icon in the toolbar above. % * <john.hammersley@gmail.com> 2016-07-03T09:54:16.211Z:
-%
-% Here's an example comment!
-%
-To reply to a comment, simply click the reply button in the lower right corner of the comment, and you can close them when you're done.
-
-Comments can also be added to the margins of the compiled PDF using the todo command\todo{Here's a comment in the margin!}, as shown in the example on the right. You can also add inline comments:
-
-\todo[inline, color=green!40]{This is an inline comment.}
-
-\subsection{How to add Tables}
-
-Use the table and tabular commands for basic tables --- see Table~\ref{tab:widgets}, for example. 
-
-
-\subsection{How to write Mathematics}
-
-\LaTeX{} is great at typesetting mathematics. Let $X_1, X_2, \ldots, X_n$ be a sequence of independent and identically distributed random variables with $\text{E}[X_i] = \mu$ and $\text{Var}[X_i] = \sigma^2 < \infty$, and let
-\[S_n = \frac{X_1 + X_2 + \cdots + X_n}{n}
-      = \frac{1}{n}\sum_{i}^{n} X_i\]
-denote their mean. Then as $n$ approaches infinity, the random variables $\sqrt{n}(S_n - \mu)$ converge in distribution to a normal $\mathcal{N}(0, \sigma^2)$.
-
-
-\subsection{How to create Sections and Subsections}
-
-Use section and subsections to organize your document. Simply use the section and subsection buttons in the toolbar to create them, and we'll handle all the formatting and numbering automatically.
-
-\subsection{How to add Lists}
-
-You can make lists with automatic numbering \dots
-
-\begin{enumerate}
-\item Like this,
-\item and like this.
-\end{enumerate}
-\dots or bullet points \dots
+\section{Problem Statement}
+\subsection{Material}
+The selected material for the 3D printed material is ABS which is commonly available from retailers. The material properties, shown in Table \ref{tab:ABSProperties}, were imported into Ansys through the engineering data section. To allow for a factor of safety the lower limits were chosen. These values are important since it indicates how the material will react to loads and boundary conditions. It is obvious that ABS has a high resistance to changes in length, indicated by the high Young's modulus however, its ultimate tensile and compression strengths are quiet low. This indicates that the material will not show great displacement before breaking.Another interesting property is the difference between compression and tensile strengths, this means that the material has a greater chance of breaking while the components are under tension.  
+\begin{table}[h]
+	\centering
+	\caption{\label{tab:ABSProperties}Material Properties of ABS \cite{Matbase} }
+	\begin{tabular}{r| l}
+		Density $(kgm^3)$ & 1060 - 1080 \\
+		Young's Modulus (MPa) & 2275 - 2900 \\ 
+		Shear Modulus (MPa) &  700 - 1050 \\
+		Tensile Ultimate Strength (MPa) & 41 - 60 \\
+		Compressive Ultimate Strength (MPa) & 60 - 86 \\
+		Poisson's Ratio & 0.35\\
+	\end{tabular}
+\end{table}
+\subsection{Assumptions}
+Several assumptions were made to simplify the initial analysis of the hexapod leg. These include:
 \begin{itemize}
-\item Like this,
-\item and like this.
+	\item The foot base is in contact with the ground 
+	\item The M2 screw points are fixed supports. 
+	\item Material is manufactured in correct conditions to eliminate imperfections
+	\item The body is manufactured with 100\% infill hence is considered a solid object
+	\item It is manufactured to have majority of fibres in compression
+	\item Weight of leg is not considered
 \end{itemize}
 
-\subsection{How to add Citations and a References List}
+\subsection{Loading Condition}
+For the initial analysis, the structure is assumed to be in the support stage of the movement meaning it can be analysed as a static structure. To determine the forces acting on the leg, the maximum output of the attached servo was considered. The servo can produce a maximum of 1.8Nm stall torque however, it is limited to 1.62Nm (10\% buffer). By some simple hand calulations, taking into consideration that the leg is not attached directly to the servo's pivot point, 26N force is applied at the top right hand corner of the leg. Figure \ref{fig:2Dprofile} shows the loading conditions of the Ansys simulation with the 1.62Nm torque. The displacement, indicated by 'C', is fixed in the Y and Z direction but free in the X axis. This is to allow the model to deform for a more accurate solution  
+ 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{2DProfile.png}
+	\caption{\label{fig:2Dprofile} Ansys 2D loading conditions}
+\end{figure}
 
-You can upload a \verb|.bib| file containing your BibTeX entries, created with JabRef; or import your \href{https://www.overleaf.com/blog/184}{Mendeley}, CiteULike or Zotero library as a \verb|.bib| file. You can then cite entries from it, like this: \cite{greenwade93}. Just remember to specify a bibliography style, as well as the filename of the \verb|.bib|.
+\newpage
 
-You can find a \href{https://www.overleaf.com/help/97-how-to-include-a-bibliography-using-bibtex}{video tutorial here} to learn more about BibTeX.
+\section{Meshing}
+Mesh quality plays an important factor in the validity and quality of results. The way mesh quality was analysed was through the Element Quality, Jacobian Ratio and Skewness. For the 2D model, a Hex dominate mesh was utilised due to the simplicity of the model. This mesh produced up to 80\% of elements with a Jacobian Ratio of 1, the maximum reaching a ratio of 6 for a single element. The quality of the mesh starts to decrease as they get to the angled edge and around the screw holes, as shown in Figure \ref{fig:2DHexMesh}. As for the 3D model, a tetrahedral mesh was the most appropriate as shown in Figure \ref{fig:3DTetraMesh}. A medium sized mesh seemed most appropriate with refinement patches around the L shaped joints.The refinement process was conducted after an initial simulation displayed structural errors around the joints. The medium sized mesh provided almost identical results as a fine mesh in the appropriate areas. A coarser mesh did result in significant increase in structural errors and  Looking at the mesh qualities, this mesh type provided 99\% of elements with a Jacobian Ratio of 1 and, 82\% of the elements had a skewness value less than 0.50. 
+ 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{2DHexMesh.jpg}
+	\caption{\label{fig:2DHexMesh} Hex Mesh of the 2D model}
+\end{figure}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{3DTetraMesh.jpg}
+	\caption{\label{fig:3DTetraMesh} Tetrahedral mesh of the 3D model}
+\end{figure}
+\newpage
+\section{Results and Validation}
+\subsection{2D Model}
+The 2D model showed results that were expected from hand calculations as shown in Figure \ref{fig:2DStress}. The majority of the stress occurs the further away from the pin supports however, the simulation indicated that the maximum stress occurs around the screw holes of which was not calculated and taken into account for in the hand calculations. Even though the maximum values are different from the hand calculations, the value around the top right corner are close. The maximum deformation also happens around the top right corner with Ansys giving a maximum value of 0.09mm. It is also clear that there is a peak where the top section meets the base due to the stress concentration
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{2Dcomplete.jpg}
+	\caption{\label{fig:2DStress} Ansys 2D model stress results }
+\end{figure}
+\newpage
+\subsection{3D Model}
+The 3D model did show different results compared to the 2D however it was validated using a convergence test and comparing the 2D deformation.Figure \ref{fig:3DStress} shows the stress results of the Ansys 3D model which, like the 2D model, indicate that the maximum stress occurs around the screw holes. As for the values, the area in the 3D model is considerably larger which explains why the maximum stresses are significantly lower. However, a comparison of Figures \ref{fig:2DDeform} and \ref{fig:3DDeform} show that the deformation pattern is relatively the same. 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{3Dcomplete.jpg}
+	\caption{\label{fig:3DStress} Ansys 3D model stress results near the screw points }
+\end{figure} 
+\section{Conclusion}
+\section{Future Work}
 
-We hope you find Overleaf useful, and please let us know if you have any feedback using the help menu above --- or use the contact form at \url{https://www.overleaf.com/contact}!
+\newpage
+\bibliographystyle{ieeetr}
+\bibliography{fea}
+\newpage
+\section{Appendix A: 2D and 3D Deformations}
+Figure \ref{fig:2DDeform} shows the deformation results of the 2D model. 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.6\textwidth]{2Ddeformation.jpg}
+	\caption{\label{fig:2DDeform} Ansys 2D model deformation results}
+\end{figure} 
 
-\bibliographystyle{alpha}
-\bibliography{sample}
+\noindent Figure \ref{fig:3DDeform} shows the deformation results of the 3D model
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.6\textwidth]{3DDeformation.jpg}
+	\caption{\label{fig:3DDeform} Ansys 3D model deformation results }
+\end{figure} 
 
 \end{document}
